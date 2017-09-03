@@ -1,0 +1,212 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Untitled Document.md</title><style></style></head><body id="preview">
+<h1><a id="About_Me_1"></a>About Me</h1>
+<p>Name : Rohil Shah<br>
+Unity ID: rshah8<br>
+Student ID: 200204305</p>
+<p>Concerns Regarding REST APIs:</p>
+<ul>
+<li>REST is stateless and all the messages exchanged between the server and client have all the context and fields concerning that message. This increases the bandwidth as there is a lot of redundant information.</li>
+<li>REST requests are not good for handling large amounts of data.</li>
+<li>REST vocabulary is not completely supported as many browsers have limited functionality for DELETE and PUT methods and many server applications don’t have support for many REST methods.</li>
+<li>REST APIs are generally connected to HTTP and moving it to a different protocol means restructuring the information. This makes REST non portable.</li>
+<li>You need to know exactly what kind of responses the REST APIs return which can be a concern while comparing it to GraphQL where the client just asks for what fields he wants.</li>
+<li>You need to load multiple URLs to get multiple resources instead of a single request in GraphQL.</li>
+</ul>
+<p>Comparison between RESTful architecture and Graph Query Language:</p>
+<ul>
+<li>REST has no specific tools and doesn’t matter if you use HTTP or any other protocol, while GraphQL is a specific query language which uses a single endpoint over HTTP.</li>
+<li>REST is designed to last while GraphQL is used for optimizing performance.</li>
+<li>REST control the server while GraphQL controls the data, thus making GraphQL apps fast and stable.</li>
+<li>In REST, the size and shape of the resource is determined by the server while, in GraphQL, the server declares the resources available and the client decides which resource it wants.</li>
+<li>REST APIs required loading multiple URLs to get many resources, while GraphQL can get all the resources in a single request itself, making the apps quicker on slow mobile connections.</li>
+<li>REST utilizes the uniform interface of protocols like content-types and status codes in HTTP while GraphQL has its own conventions which can sometimes be confusing.</li>
+<li>Although REST and GraphQL both support version evolution, version depreciation on GraphQL is very easy. This is because GraphQL users have to specify what fields do they want returned in the query. While REST returns any field in response to an API call. The developers are supposed to know about the changes in every version and what fields are there or no longer present.</li>
+</ul>
+<p>Code for REST tasks: <a href="https://github.ncsu.edu/rshah8/HW1/blob/master/script.js">code</a></p>
+<pre><code class="language-js"><span class="hljs-keyword">var</span> request = <span class="hljs-built_in">require</span>(<span class="hljs-string">'request'</span>);
+<span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">"fs"</span>);
+<span class="hljs-keyword">var</span> <span class="hljs-built_in">Promise</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">'bluebird'</span>);
+<span class="hljs-keyword">var</span> parse = <span class="hljs-built_in">require</span>(<span class="hljs-string">'parse-link-header'</span>);
+
+
+<span class="hljs-comment">////// FILL IN THE BLANKS</span>
+
+<span class="hljs-keyword">var</span> token = <span class="hljs-string">"token "</span> + <span class="hljs-string">"b95f598d31265f6a5b2d9baa75c11bd1e05069eb "</span>;
+<span class="hljs-keyword">var</span> userId = <span class="hljs-string">"rohilshah95"</span>;
+<span class="hljs-keyword">var</span> urlRoot = <span class="hljs-string">"https://api.github.com"</span>;
+
+getYourRepos(userId);
+listBranches(userId);
+createRepo(userId);
+createIssue(userId);
+editRepo(userId);
+listReactions(userId);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getYourRepos</span>(<span class="hljs-params">userName</span>)
+</span>{
+
+    <span class="hljs-keyword">var</span> options = {
+        url: urlRoot + <span class="hljs-string">'/users/'</span> + userName + <span class="hljs-string">"/repos"</span>,
+        method: <span class="hljs-string">'GET'</span>,
+        headers: {
+            <span class="hljs-string">"User-Agent"</span>: <span class="hljs-string">"EnableIssues"</span>,
+            <span class="hljs-string">"content-type"</span>: <span class="hljs-string">"application/json"</span>,
+            <span class="hljs-string">"Authorization"</span>: token
+        }
+    };
+
+    request(options, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error, response, body</span>) 
+    </span>{
+        <span class="hljs-keyword">var</span> obj = <span class="hljs-built_in">JSON</span>.parse(body);
+        <span class="hljs-built_in">console</span>.log( obj );
+        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; obj.length; i++ )
+        {
+            <span class="hljs-keyword">var</span> name = obj[i].name;
+            <span class="hljs-built_in">console</span>.log( name );
+        }
+    });
+
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">listBranches</span>(<span class="hljs-params">owner</span>)
+</span>{
+    <span class="hljs-keyword">var</span> options = {
+        url: urlRoot + <span class="hljs-string">'/repos/'</span> + owner + <span class="hljs-string">"/Twitter-Personalities"</span>+ <span class="hljs-string">"/branches"</span>,
+        method: <span class="hljs-string">'GET'</span>,
+        headers: {
+            <span class="hljs-string">"User-Agent"</span>: <span class="hljs-string">"EnableIssues"</span>,
+            <span class="hljs-string">"content-type"</span>: <span class="hljs-string">"application/json"</span>,
+            <span class="hljs-string">"Authorization"</span>: token
+        }
+    };
+
+    request(options, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error, response, body</span>) 
+    </span>{
+        <span class="hljs-keyword">var</span> obj = <span class="hljs-built_in">JSON</span>.parse(body);
+        <span class="hljs-built_in">console</span>.log( obj );
+        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; obj.length; i++ )
+        {
+            <span class="hljs-keyword">var</span> name = obj[i].name;
+            <span class="hljs-built_in">console</span>.log( name );
+        }
+    }); 
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createRepo</span>(<span class="hljs-params">owner</span>)
+</span>{
+    <span class="hljs-keyword">var</span> options = {
+        url: urlRoot + <span class="hljs-string">"/user/repos"</span>,
+        method: <span class="hljs-string">'POST'</span>,
+        json : {
+            <span class="hljs-string">"name"</span>: <span class="hljs-string">"HW1"</span>,
+            <span class="hljs-string">"homepage"</span>: <span class="hljs-string">"https://github.com"</span>,
+            <span class="hljs-string">"private"</span>: <span class="hljs-literal">false</span>,
+            <span class="hljs-string">"has_issues"</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-string">"has_projects"</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-string">"has_wiki"</span>: <span class="hljs-literal">true</span>
+        },
+        headers: {
+            <span class="hljs-string">"User-Agent"</span>: <span class="hljs-string">"EnableIssues"</span>,
+            <span class="hljs-string">"content-type"</span>: <span class="hljs-string">"application/json"</span>,
+            <span class="hljs-string">"Authorization"</span>: token
+        }
+    };
+
+    request(options, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error, response, body</span>) 
+    </span>{
+        <span class="hljs-keyword">var</span> obj = body;
+        <span class="hljs-built_in">console</span>.log( obj );
+        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; obj.length; i++ )
+        {
+            <span class="hljs-keyword">var</span> name = obj[i].name;
+            <span class="hljs-built_in">console</span>.log( name );
+        }
+    }); 
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createIssue</span>(<span class="hljs-params">userName</span>)
+</span>{
+
+    <span class="hljs-keyword">var</span> options = {
+        url: urlRoot + <span class="hljs-string">'/repos/'</span> + userName + <span class="hljs-string">"/Twitter-Personalities"</span>+ <span class="hljs-string">"/issues"</span>,
+        method: <span class="hljs-string">'POST'</span>,
+        json: {<span class="hljs-string">"title"</span>: <span class="hljs-string">"bug found 2"</span>  },
+        headers: {
+            <span class="hljs-string">"User-Agent"</span>: <span class="hljs-string">"EnableIssues"</span>,
+            <span class="hljs-string">"content-type"</span>: <span class="hljs-string">"application/json"</span>,
+            <span class="hljs-string">"Authorization"</span>: token
+        }
+    };
+
+    request(options, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error, response, body</span>) 
+    </span>{
+        <span class="hljs-keyword">var</span> obj = body;
+        <span class="hljs-built_in">console</span>.log( obj );
+        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; obj.length; i++ )
+        {
+            <span class="hljs-keyword">var</span> name = obj[i].name;
+            <span class="hljs-built_in">console</span>.log( name );
+        }
+    });
+
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">editRepo</span>(<span class="hljs-params">owner</span>)
+</span>{
+    <span class="hljs-keyword">var</span> options = {
+        url: urlRoot + <span class="hljs-string">"/repos/"</span>+owner+<span class="hljs-string">"/HW1"</span>,
+        method: <span class="hljs-string">'PATCH'</span>,
+        json : {
+            <span class="hljs-string">"name"</span>: <span class="hljs-string">"HW1"</span>,
+            <span class="hljs-string">"has_issues"</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-string">"has_projects"</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-string">"has_wiki"</span>: <span class="hljs-literal">true</span>
+        },
+        headers: {
+            <span class="hljs-string">"User-Agent"</span>: <span class="hljs-string">"EnableIssues"</span>,
+            <span class="hljs-string">"content-type"</span>: <span class="hljs-string">"application/json"</span>,
+            <span class="hljs-string">"Authorization"</span>: token
+        }
+    };
+
+    request(options, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error, response, body</span>) 
+    </span>{
+        <span class="hljs-keyword">var</span> obj = body;
+        <span class="hljs-built_in">console</span>.log( obj );
+        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; obj.length; i++ )
+        {
+            <span class="hljs-keyword">var</span> name = obj[i].name;
+            <span class="hljs-built_in">console</span>.log( name );
+        }
+    }); 
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">listReactions</span>(<span class="hljs-params">userName</span>)
+</span>{
+    <span class="hljs-keyword">var</span> options = {
+        url: urlRoot + <span class="hljs-string">'/repos/'</span> + userName + <span class="hljs-string">"/Twitter-Personalities"</span>+ <span class="hljs-string">"/issues"</span>+<span class="hljs-string">"/1"</span>+<span class="hljs-string">"/reactions"</span>,
+        method: <span class="hljs-string">'GET'</span>,
+        headers: {
+            <span class="hljs-string">"User-Agent"</span>: <span class="hljs-string">"EnableIssues"</span>,
+            <span class="hljs-string">"content-type"</span>: <span class="hljs-string">"application/json"</span>,
+            <span class="hljs-string">"Authorization"</span>: token,
+            <span class="hljs-string">"Accept"</span>: <span class="hljs-string">'application/vnd.github.squirrel-girl-preview'</span>
+        }
+    };
+
+    request(options, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error, response, body</span>) 
+    </span>{
+        <span class="hljs-keyword">var</span> obj = <span class="hljs-built_in">JSON</span>.parse(body);
+        <span class="hljs-built_in">console</span>.log( obj );
+        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; obj.length; i++ )
+        {
+            <span class="hljs-keyword">var</span> name = obj[i].name;
+            <span class="hljs-built_in">console</span>.log( name );
+        }
+    }); 
+}
+
+ 
+</code></pre>
+
+</body></html>
