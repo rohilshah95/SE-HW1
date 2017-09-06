@@ -4,6 +4,7 @@ Name : Rohil Shah
 Unity ID: rshah8  
 Student ID: 200204305
 
+Code for REST tasks: [https://github.ncsu.edu/rshah8/HW1/blob/master/script.js](https://github.ncsu.edu/rshah8/HW1/blob/master/script.js)
 
 Link to gh-pages website: [https://pages.github.ncsu.edu/rshah8/HW1/](https://pages.github.ncsu.edu/rshah8/HW1/)
 
@@ -24,5 +25,5 @@ Comparison between RESTful architecture and Graph Query Language:
 * REST utilizes the uniform interface of protocols like content-types and status codes in HTTP while GraphQL has its own conventions which can sometimes be confusing. 
 * Although REST and GraphQL both support version evolution, version depreciation on GraphQL is very easy. This is because GraphQL users have to specify what fields do they want returned in the query. While REST returns any field in response to an API call. The developers are supposed to know about the changes in every version and what fields are there or no longer present.
 
-Code for REST tasks: [https://github.ncsu.edu/rshah8/HW1/blob/master/script.js](https://github.ncsu.edu/rshah8/HW1/blob/master/script.js)
+
 
