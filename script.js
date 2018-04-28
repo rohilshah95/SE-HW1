@@ -4,8 +4,8 @@ var Promise = require('bluebird');
 var parse = require('parse-link-header');
 
 
-var token = "token " + "b95f598d31265f6a5b2d9baa75c11bd1e05069eb ";
-var userId = "rohilshah95";
+var token = "token " + "your token here ";
+var userId = "your github username";
 var urlRoot = "https://api.github.com";
 // NCSU Enterprise endpoint:
 // https://github.ncsu.edu/api/v3
